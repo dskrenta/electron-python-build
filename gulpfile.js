@@ -9,15 +9,15 @@ const electron = require('electron-connect').server.create({
   path: './build'
 });
 
-gulp.task('start', ['build', 'watch'], ()=> {
+gulp.task('start', ['build', 'watch'], () => {
   electron.start();
 });
 
-gulp.task('renderer-restart', ()=> {
+gulp.task('renderer-restart', () => {
   electron.reload();
 });
 
-gulp.task('browser-restart', ()=> {
+gulp.task('browser-restart', () => {
   electron.restart();
 });
 
@@ -30,11 +30,11 @@ const paths = {
   build: './build/**/*.*'
 };
 
-gulp.task('clean', ()=> {
+gulp.task('clean', () => {
   return del(['./build']);
 });
 
-const riotTask = ()=> {
+const riotTask = () => {
   return gulp.src('app/components/**/*.tag')
     .pipe(riot())
     .pipe(gulp.dest('./build/components'));
@@ -43,7 +43,7 @@ const riotTask = ()=> {
 gulp.task('riot', ['clean'], riotTask);
 gulp.task('riot-watch', riotTask);
 
-const copyTask = ()=> {
+const copyTask = () => {
   return gulp.src('app/index.*(html|js)')
     .pipe(gulp.dest('./build'));
 };
@@ -51,7 +51,7 @@ const copyTask = ()=> {
 gulp.task('copy', ['clean'], copyTask);
 gulp.task('copy-watch', copyTask);
 
-const styleTask = ()=> {
+const styleTask = () => {
   return gulp.src('app/style/*.css')
     .pipe(gulp.dest('./build/style'));
 };
@@ -59,7 +59,7 @@ const styleTask = ()=> {
 gulp.task('style', ['clean'], styleTask);
 gulp.task('style-watch', styleTask);
 
-const scriptsTask = ()=> {
+const scriptsTask = () => {
   return gulp.src('app/app.js')
     .pipe(babel({
       presets: ['es2015']
@@ -70,7 +70,7 @@ const scriptsTask = ()=> {
 gulp.task('scripts', ['clean'], scriptsTask);
 gulp.task('scripts-watch', scriptsTask);
 
-const utilsTask = ()=> {
+const utilsTask = () => {
   return gulp.src('utils/**/*.js')
     .pipe(babel({
       presets: ['es2015']
@@ -81,20 +81,20 @@ const utilsTask = ()=> {
 gulp.task('utils', ['clean'], utilsTask);
 gulp.task('utils-watch', utilsTask);
 
-gulp.task('watch', ()=> {
-  watch(paths.components, batch((events, done)=> {
+gulp.task('watch', () => {
+  watch(paths.components, batch((events, done) => {
     gulp.start('browser-restart', ['riot-watch'], done);
   }));
-  watch(paths.copy, batch((events, done)=> {
+  watch(paths.copy, batch((events, done) => {
     gulp.start('browser-restart', ['copy-watch'], done);
   }));
-  watch(paths.style, batch((events, done)=> {
+  watch(paths.style, batch((events, done) => {
     gulp.start('browser-restart', ['style-watch'], done);
   }));
-  watch(paths.scripts, batch((events, done)=> {
+  watch(paths.scripts, batch((events, done) => {
     gulp.start('browser-restart', ['scripts-watch'], done);
   }));
-  watch(paths.utils, batch((events, done)=> {
+  watch(paths.utils, batch((events, done) => {
     gulp.start('browser-restart', ['utils-watch'], done);
   }));
 });

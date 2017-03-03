@@ -1,13 +1,12 @@
-# Web Browser
-
-Web browser based on electron
+# electron-python-build
+Application boilerplate electron frontend with python functions
 
 
 ## Install
 
 ```
-$ git clone https://github.com/dskrenta/browser
-$ cd browser && npm install
+$ git clone https://github.com/dskrenta/electron-python-build
+$ cd electron-python-build && npm install
 ```
 
 ## Run
