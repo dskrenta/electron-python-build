@@ -12,10 +12,20 @@
   },
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "babel": "babel -w -d ./build ./app -s",
+    "build:babel": "babel app/lib --out-file build/app.js --presets=babel-preset-es2015",
+    "build:riot": "riot app/components build/components.js",
+    "build:css": "cp -r app/style build/style",
+    "build:copy": "cp app/index.js app/index.html build",
+    "build:vendor": "cp -r app/vendor build/vendor",
+    "watch:riot": "onchange 'app/components' -- npm run build:riot",
+    "watch:babel": "onchange 'app/lib' -- npm run build:babel",
+    "watch:css": "onchange 'app/style' -- npm run build:css",
+    "watch:copy": "onchange 'index.*(html|js)' -- npm run build:copy",
+    "watch:vendor": "onchange 'vendor' -- npm run build:vendor",
     "start": "electron build",
-    "build:dev": "",
-    "build:prod": "electron-packager ./app --out=dist --app-version=$npm_package_version --prune --asar --overwrite --all"
+    "build": "npm run build:babel && npm run build:css && npm run build:riot && npm run build:copy && npm run build:vendor",
+    "watch": "npm-run-all -p build watch:riot watch:babel watch:css watch:copy watch:vendor",
+    "package": "electron-packager ./app --out=dist --app-version=$npm_package_version --prune --asar --overwrite --all"
   },
   "files": [
     "index.js",
@@ -31,18 +41,13 @@
     "electron-debug": "^1.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.23.0",
     "babel-preset-es2015": "^6.9.0",
-    "del": "^2.2.0",
-    "devtron": "^1.1.0",
-    "electron-connect": "0.4.2",
     "electron-packager": "^7.0.0",
     "electron-prebuilt": "^1.0.1",
     "electron-reload": "^1.1.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-batch": "^1.0.5",
-    "gulp-riot": "^0.5.1",
-    "gulp-watch": "4.3.6",
+    "npm-run-all": "^4.0.2",
+    "onchange": "^3.2.1",
     "riot": "2.4.1"
   }
 }

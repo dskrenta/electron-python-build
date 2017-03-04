@@ -1,10 +1,8 @@
 'use strict';
 import { remote } from 'electron';
 import * as riot from 'riot';
-
-// RIOT tag imports
-import './components/main.js';
+import './components.js';
 
 riot.mount('main');
 
-// console.log(normalizeUrl('octograde.com'));
+console.log('Hello, World!');
