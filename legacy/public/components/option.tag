@@ -1,4 +1,0 @@
-<option>
-  <script>
-  </script>
-</option>
