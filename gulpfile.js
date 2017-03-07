@@ -24,9 +24,9 @@ gulp.task('browser-restart', () => {
 const paths = {
   components: 'app/components/**/*.tag',
   copy: 'app/index.*(html|js)',
-  style: 'app/style/*.css',
+  style: 'app/style/**/*.css',
   scripts: 'app/app.js',
-  utils: 'utils/**/*.js',
+  lib: 'app/lib/**/*.js',
   build: './build/**/*.*'
 };
 
@@ -71,11 +71,11 @@ gulp.task('scripts', ['clean'], scriptsTask);
 gulp.task('scripts-watch', scriptsTask);
 
 const utilsTask = () => {
-  return gulp.src('utils/**/*.js')
+  return gulp.src(paths.lib)
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(gulp.dest('./build/utils'));
+    .pipe(gulp.dest('./build/lib'));
 };
 
 gulp.task('utils', ['clean'], utilsTask);
@@ -94,7 +94,7 @@ gulp.task('watch', () => {
   watch(paths.scripts, batch((events, done) => {
     gulp.start('browser-restart', ['scripts-watch'], done);
   }));
-  watch(paths.utils, batch((events, done) => {
+  watch(paths.lib, batch((events, done) => {
     gulp.start('browser-restart', ['utils-watch'], done);
   }));
 });
